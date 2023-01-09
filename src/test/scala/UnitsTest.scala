@@ -1,13 +1,23 @@
 package transients
 
 import org.scalatest.funsuite.AnyFunSuite
-import transients.Quantities._
-import breeze.math._
+import transients.Quantities.*
+import breeze.math.*
+import com.sun.corba.se.impl.io.TypeMismatchException
 
 class UnitsTest extends AnyFunSuite {
   
-      test("Test math operation on Quantities"){
-        assert(Power(4 + 1*i) == Power(4 + 1*i))
-        assert(Power(4 + 1*i) + Power(4 + 1*i) == Power(8 + 2*i))
+      test("Test equals() on Units"){
+        assert(Power(4 + 1 * i) == Power(4 + 1 * i), "Exact values")
+        assert(Power(4 + 1 * i) != Voltage(4 + 1 * i), "Comparing of different units")
+        assert(Power(1 + 0 * i) != Power(i), "Different values")
+      }
+      test("Test math operations"){
+        assert(Voltage(1) + Voltage(i) == Voltage(1 + i))
+        assert(Current(2 + 5 * i) - Current(2 - 5 * i) == Current(10 * i))
+        assert(Power(3 + 2 * i) * Power(3 - 2 * i) == Power(13))
+        assert(Power(1) / Power(1 + 2 * i) == Power(0.2 - 0.4 * i))
+        assert(Power(3 + 2 * i) * 3 == Power(9 + 6 * i))
+        assert(Power(4 + 2 * i) / 2 == Power(2 + 1 * i))
       }
 }
