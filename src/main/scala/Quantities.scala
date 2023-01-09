@@ -26,7 +26,7 @@ object Quantities {
             def canEqual(that: Any) = that.isInstanceOf[QuantityType]
 
             override def equals(that: Any) =  that match {
-                case that: QType => this.value == that.value && this.getClass == that.getClass
+                case that: QuantityType => this.value == that.value && this.getClass == that.getClass
                 case _ => false
             }
 
@@ -68,6 +68,22 @@ object Quantities {
 
         def apply(value: Complex): Power.S = make(value)
         def apply(value: Int): Power.S = make(Complex(value, 0))
+    }
+
+    object Impedance extends Quantity{
+        class Z(override val value: Complex) extends QuantityType(value){
+            override val unit_sign: String = "Z"
+
+            // Parallel connection of impedances
+            def ||(that: QType): QType = 
+                make(this.value * that.value / (this.value + that.value))
+        }
+        type QType = Z
+        override def make(value: Complex): Z =
+            new Z(value)
+
+        def apply(value: Complex): Impedance.Z = make(value)
+        def apply(value: Int): Impedance.Z = make(Complex(value, 0))
     }
 }
 
