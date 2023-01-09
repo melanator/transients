@@ -1,4 +1,7 @@
-@main
-def main(): Unit = {
-  println("Hello world!")
+package transients
+
+import transients.Quantities
+
+object Main extends App {
+  println("Hello, world!")
 }
