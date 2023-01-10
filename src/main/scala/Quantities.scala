@@ -18,14 +18,14 @@ object Quantities {
                 make(this.value * that.value)
             def / (that: QType): QType = 
                 make(this.value / that.value)
-            def * (that: Double) = 
+            def * (that: Double): QType =
                 make(this.value * Complex(that, 0))
-            def / (that: Double) = 
+            def / (that: Double): QType =
                 make(this.value / Complex(that, 0))
 
-            def canEqual(that: Any) = that.isInstanceOf[QuantityType]
+            def canEqual(that: Any): Boolean = that.isInstanceOf[QuantityType]
 
-            override def equals(that: Any) =  that match {
+            override def equals(that: Any): Boolean =  that match {
                 case that: QuantityType => this.value == that.value && this.getClass == that.getClass
                 case _ => false
             }
@@ -35,7 +35,7 @@ object Quantities {
     }
 
     object Voltage extends Quantity{
-        class V(override val value: Complex) extends QuantityType(value){
+        final class V(override val value: Complex) extends QuantityType(value){
             override val unit_sign: String = "V"
         }
         type QType = V
@@ -47,7 +47,7 @@ object Quantities {
     }
 
     object Current extends Quantity{
-        class I(override val value: Complex) extends QuantityType(value){
+        final class I(override val value: Complex) extends QuantityType(value){
             override val unit_sign: String = "I"
         }
         type QType = I
@@ -59,7 +59,7 @@ object Quantities {
     }
 
     object Power extends Quantity{
-        class S(override val value: Complex) extends QuantityType(value){
+        final class S(override val value: Complex) extends QuantityType(value){
             override val unit_sign: String = "S"
         }
         type QType = S
@@ -71,7 +71,7 @@ object Quantities {
     }
 
     object Impedance extends Quantity{
-        class Z(override val value: Complex) extends QuantityType(value){
+        final class Z(override val value: Complex) extends QuantityType(value){
             override val unit_sign: String = "Z"
 
             // Parallel connection of impedances
